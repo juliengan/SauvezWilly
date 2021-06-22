@@ -28,43 +28,37 @@ import java.io.IOException;
 public class Fragment1 extends Fragment {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
+    private static final int REQUEST_IMAGE_CAPTURE = 12345;
     Button PrendrePhoto;
     ImageView imageView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment1_layout, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment1_layout,
+                container, false);
 
         PrendrePhoto = (Button) rootView.findViewById(R.id.PrendrePhoto);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
 
-        @Override
-        public View onCreateView (LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState){
+        PrendrePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            final View rootView = inflater.inflate(R.layout.fragment1_layout,
-                    container, false);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,
+                        CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
-            PrendrePhoto = (Button) rootView.findViewById(R.id.PrendrePhoto);
-            imageView = (ImageView) rootView.findViewById(R.id.imageView);
+            }
+        });
 
-            PrendrePhoto.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        return rootView;
 
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent,
-                            CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
-                }
-            });
-            return rootView;
-        }
     }
 
     @Override
-    public void onActivityResult ( int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
