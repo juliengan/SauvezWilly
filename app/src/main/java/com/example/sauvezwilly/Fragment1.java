@@ -41,7 +41,7 @@ public class Fragment1 extends Fragment {
         ImportPhoto = (Button) rootView.findViewById(R.id.ImportPhoto);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
 
-        private final View.OnClickListener mListener = new View.OnClickListener() {
+        final View.OnClickListener mListener = new View.OnClickListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onClick(View view) {
@@ -61,10 +61,11 @@ public class Fragment1 extends Fragment {
                                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                     2000);
                         }
+                        break;
                 }
 
             }
-        });
+        };
 
         return rootView;
 
