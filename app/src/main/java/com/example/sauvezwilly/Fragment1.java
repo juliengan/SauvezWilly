@@ -29,7 +29,6 @@ public class Fragment1 extends Fragment {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
     Button PrendrePhoto;
-    Button ImportPhoto;
     ImageView imageView;
 
     @Override
@@ -38,49 +37,34 @@ public class Fragment1 extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment1_layout, container, false);
 
         PrendrePhoto = (Button) rootView.findViewById(R.id.PrendrePhoto);
-        ImportPhoto = (Button) rootView.findViewById(R.id.ImportPhoto);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
 
-        final View.OnClickListener mListener = new View.OnClickListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public void onClick(View view) {
-                switch(view.getId()){
-                    case R.id.PrendrePhoto:
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                        break;
-                    case R.id.ImportPhoto:
-                        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
-                                Manifest.permission.READ_EXTERNAL_STORAGE);
+        @Override
+        public View onCreateView (LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState){
 
-                        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                            startGallery();
-                        } else {
-                            ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    2000);
-                        }
-                        break;
+            final View rootView = inflater.inflate(R.layout.fragment1_layout,
+                    container, false);
+
+            PrendrePhoto = (Button) rootView.findViewById(R.id.PrendrePhoto);
+            imageView = (ImageView) rootView.findViewById(R.id.imageView);
+
+            PrendrePhoto.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent,
+                            CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
                 }
-
-            }
-        };
-
-        return rootView;
-
-    }
-
-    private void startGallery() {
-        Intent cameraIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        cameraIntent.setType("image/*");
-        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(cameraIntent, 1000);
+            });
+            return rootView;
         }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult ( int requestCode, int resultCode, Intent data){
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
@@ -97,18 +81,6 @@ public class Fragment1 extends Fragment {
 
                 imageView.setImageBitmap(bitmap);
 
-            }
-        }
-        if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == 1000){
-                Uri returnUri = data.getData();
-                Bitmap bitmapImage = null;
-                try {
-                    bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), returnUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                imageView.setImageBitmap(bitmapImage);
             }
         }
     }
