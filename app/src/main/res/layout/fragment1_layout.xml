@@ -23,13 +23,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Prendre une photo1" />
-
-            <Button
-                android:id="@+id/ImportPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Importer une photo" />
         </LinearLayout>
 
         <ImageView
